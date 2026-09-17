@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inquilino Score — alugue para a pessoa certa</title>
+<meta name="description" content="Score de análise de locatário para aluguel anual no litoral: renda, garantias e referências. Satélite da rede praia.digital">
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f0f9ff;color:#0c4a6e;min-height:100vh}
+header{padding:24px;text-align:center;background:linear-gradient(120deg,#075985,#0ea5e9);color:#fff}
+nav a{color:#fef08a;margin:0 8px;text-decoration:none;font-size:14px}
+.wrap{max-width:680px;margin:auto;padding:24px}
+.panel{background:#fff;border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 6px 18px rgba(7,89,133,.1)}
+label{display:block;margin:10px 0 4px;font-weight:600}
+input,select{width:100%;padding:12px;border-radius:10px;border:2px solid #bae6fd;font-size:16px}
+.score{text-align:center;padding:20px}
+.score b{font-size:56px;display:block}
+footer{padding:20px;text-align:center;font-size:13px}
+footer a{color:#075985}
+</style></head>
+<body>
+<header><h1>🧾 Inquilino Score</h1><p>Análise de locatário em 30 segundos — aluguel anual sem susto</p>
+<nav><a href="https://praia.digital">Praia Digital</a><a href="https://praia.digital/aluguel-anual">Aluguel Anual</a><a href="https://praia.digital/docs-imob">Docs Imob</a><a href="https://praia.digital/apps">Todos os apps</a></nav></header>
+<div class="wrap"><div class="panel">
+<label>💰 Aluguel mensal (R$)</label><input type="number" id="aluguel" value="3000" oninput="calc()">
+<label>💼 Renda comprovada do candidato (R$)</label><input type="number" id="renda" value="9000" oninput="calc()">
+<label>📄 Tipo de garantia</label><select id="gar" onchange="calc()"><option value="40">Seguro-fiança</option><option value="30">Caução (3 meses)</option><option value="25">Fiador com imóvel no litoral</option><option value="15">Fiador comum</option><option value="5">Sem garantia</option></select>
+<label>📊 Situação</label><select id="sit" onchange="calc()"><option value="20">Nome limpo + referências</option><option value="10">Nome limpo, sem referências</option><option value="0">Restrição no nome</option></select>
+</div>
+<div class="panel score"><p>Score do candidato</p><b id="nota">—</b><p id="veredito"></p></div>
+</div>
+<footer>Rede <a href="https://praia.digital">praia.digital</a> · <a href="https://praia.digital/condominio">Condomínio</a> · <a href="https://praia.digital/contrato-temporada">Contrato</a> · <a href="https://praia.digital/painel-imobiliaria">Painel</a></footer>
+<script>
+function calc(){
+const a=+aluguel.value,r=+renda.value;
+let pts=+gar.value+ +sit.value;
+const ratio=a>0?r/a:0;
+pts+=Math.min(40,Math.round(ratio*10));
+pts=Math.min(100,pts);
+const nota=document.getElementById('nota');nota.textContent=pts;
+let v,c;
+if(pts>=75){v='✅ Aprovado! Candidato forte.';c='#16a34a'}
+else if(pts>=50){v='🟡 Aprovável com caução reforçada.';c='#ca8a04'}
+else{v='🔴 Risco alto — exija seguro-fiança ou recuse.';c='#dc2626'}
+nota.style.color=c;veredito.innerHTML=`<b style="color:${c}">${v}</b><br><small>Renda/aluguel: ${ratio.toFixed(1)}x (ideal: 3x+) · Gere o contrato no <a href="https://praia.digital/contrato-temporada">Contrato de Temporada</a></small>`;}
+calc();
+</script></body></html>
